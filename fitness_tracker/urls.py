@@ -1,9 +1,9 @@
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework.authtoken.views import obtain_auth_token
+from rest_framework.authtoken import views as drf_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('tracker.urls')),
-    path('api/token/', obtain_auth_token, name='api_token_auth'),
+    path('api-token-auth/', drf_views.obtain_auth_token),
 ]
