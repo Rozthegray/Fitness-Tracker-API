@@ -1,35 +1,39 @@
-# 🏋️‍♂️ Fitness Tracker API
+# Fitness Tracker API
 
-This is a RESTful API for managing fitness activities. Built with **Django** and **Django REST Framework**, it allows users to register, authenticate, and track fitness activities such as running, cycling, weightlifting, etc.
+Welcome to the **Fitness Tracker API**! This API allows users to track and manage their fitness activities such as running, cycling, and weightlifting. It provides a secure, easy-to-use interface to log, update, delete, and view fitness activities, as well as track key metrics like calories burned, distance, and duration.
 
----
-
-## 📌 Features
-
-- ✅ User Registration & Authentication
-- ✅ CRUD for Users
-- ✅ CRUD for Activities
-- ✅ Activity History View with Filtering by Date & Type
-- ✅ Activity Summary: Calories Burned, Distance, Duration
-- ✅ Secure with JWT Authentication
-- ✅ Pagination & Sorting Support
-- ✅ Built using Django ORM and REST Framework
+The goal of this project is to offer users a way to easily monitor their progress and stay motivated in their fitness journey.
 
 ---
 
-## 🧱 Tech Stack
+## Features
+
+- **User Management**: Users can register, log in, and manage their activities.
+- **Activity Management**: Users can create, update, and delete fitness activities.
+- **Activity History**: Users can view their past activities, filtered by date or activity type.
+- **Activity Metrics**: Users can view total distance, total calories burned, and activity duration over time.
+- **Authentication**: The API uses token-based authentication to ensure user data is secure.
+
+---
+
+## Getting Started
+
+Follow the instructions below to get the Fitness Tracker API up and running on your local machine.
+
+### Prerequisites
 
 - Python 3.x
-- Django
-- Django REST Framework
-- SQLite3 (default) – easy to switch to PostgreSQL
-- JWT (djangorestframework-simplejwt)
+- Django 3.x+
+- Django Rest Framework
+- SQLite (for local development) or PostgreSQL (for production)
+- Git
 
----
+### Installation
 
-## 🧑‍💻 Installation & Setup
+1. **Clone the repository**
 
-1. **Clone the repo:**
+   Start by cloning the repository to your local machine:
+
    ```bash
-   git clone https://github.com/Rozthegray/Fitness-Tracker-API.git
-   cd Fitness-Tracker-API
+   git clone https://github.com/Rozthegray/Fitness-Tracker-API
+   cd fitness-tracker-api
