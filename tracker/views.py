@@ -1,22 +1,18 @@
-from django.shortcuts import render
-
-# Create your views here.
-
-from rest_framework import generics, permissions
+from rest_framework import viewsets, permissions, filters
+from rest_framework.decorators import action
 from rest_framework.response import Response
-from rest_framework.views import APIView
-from rest_framework_simplejwt.views import TokenObtainPairView
-from .models import User, Activity
-from .serializers import UserSerializer, ActivitySerializer
-from django.shortcuts import get_object_or_404
+from django.db.models import Sum
+from django.contrib.auth.models import User
+from .models import Activity
+from .serializers import ActivitySerializer, UserSerializer
+from .permissions import IsOwner
 
-class RegisterUserView(generics.CreateAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-
-class UserActivityListView(generics.ListCreateAPIView):
+class ActivityViewSet(viewsets.ModelViewSet):
     serializer_class = ActivitySerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated, IsOwner]
+    filter_backends = [filters.OrderingFilter, filters.SearchFilter]
+    ordering_fields = ['date', 'duration', 'calories_burned']
+    search_fields = ['activity_type']
 
     def get_queryset(self):
         return Activity.objects.filter(user=self.request.user)
@@ -24,24 +20,17 @@ class UserActivityListView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
-class UserActivityDetailView(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = ActivitySerializer
-    permission_classes = [permissions.IsAuthenticated]
+    @action(detail=False, methods=['get'])
+    def summary(self, request):
+        queryset = self.get_queryset()
+        summary = queryset.aggregate(
+            total_duration=Sum('duration'),
+            total_distance=Sum('distance'),
+            total_calories=Sum('calories_burned'),
+        )
+        return Response(summary)
 
-    def get_queryset(self):
-        return Activity.objects.filter(user=self.request.user)
-
-class ActivitySummaryView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get(self, request):
-        activities = Activity.objects.filter(user=request.user)
-        total_duration = sum(activity.duration for activity in activities)
-        total_distance = sum(activity.distance or 0 for activity in activities)
-        total_calories = sum(activity.calories_burned for activity in activities)
-
-        return Response({
-            "total_duration": total_duration,
-            "total_distance": total_distance,
-            "total_calories": total_calories
-        })
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [permissions.AllowAny]
