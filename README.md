@@ -37,3 +37,44 @@ Follow the instructions below to get the Fitness Tracker API up and running on y
    ```bash
    git clone https://github.com/Rozthegray/Fitness-Tracker-API
    cd fitness-tracker-api
+
+2   Set up a virtual environment
+
+Create a virtual environment to isolate the project dependencies:
+
+python -m venv venv
+
+
+3 Activate the virtual environment
+
+On Windows:
+
+.\venv\Scripts\activate
+On macOS/Linux:
+
+source venv/bin/activate
+
+4 Install dependencies
+
+Install the required packages:
+
+pip install -r requirements.txt
+
+
+5 Run database migrations
+
+Set up the database:
+
+py manage.py migrate
+
+
+6 Create a superuser
+Create a superuser to access the Django admin panel:
+
+py manage.py createsuperuser
+Follow the prompts to create your admin account.
+
+7 Start the development server
+Now you're ready to run the server:
+
+py manage.py runserver
